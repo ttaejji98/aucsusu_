@@ -49,7 +49,8 @@ public class ItemController {
             //String sourceFileName = file.getFileName();
             File destinationFile;
             String destinationFileName;
-            String fileUrl = "C:/spring/aucsusu/src/main/resources/static/images/";
+            String fileUrl = "C:/aucsusu/src/main/resources/static/images/";
+            // "C:/spring/aucsusu/src/main/resources/static/images/";
 
             do {
                 destinationFileName = RandomStringUtils.randomAlphanumeric(32);
@@ -72,11 +73,13 @@ public class ItemController {
 
 
     @GetMapping("/items")
-    public String list(Model model){
+    public String list(Long item_no, Model model){
         List<ItemForm> items = itemService.getItemList();
         List<Files> files = filesService.getFilesList();
         model.addAttribute("items", items);
         model.addAttribute("files", files);
+        model.addAttribute("view", itemService.updateCount(item_no));
+
         return "items/itemsList";
     }
 
@@ -105,7 +108,7 @@ public class ItemController {
         return "items/update";
     }
 
-    @RequestMapping(value = "/item/edit/{item_no}", method = RequestMethod.PUT)
+    @PutMapping("/items/edit/{item_no}")
     public String update(ItemForm itemForm, HttpServletRequest rq){
         HttpSession session = rq.getSession();
         User user = (User) session.getAttribute("user");
@@ -113,8 +116,8 @@ public class ItemController {
         return "redirect:/";
     }
 
-    @DeleteMapping("/items/{item_no}")
-    public String delete(@PathVariable("item_no") Long item_no){
+   @DeleteMapping("/items/{item_no}")
+   public String delete(@PathVariable("item_no") Long item_no){
         itemService.deletePost(item_no);
         return "redirect:/";
     }

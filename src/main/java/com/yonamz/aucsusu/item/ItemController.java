@@ -74,11 +74,11 @@ public class ItemController {
 
     @GetMapping("/items")
     public String list(Long item_no, Model model){
+
         List<ItemForm> items = itemService.getItemList();
         List<Files> files = filesService.getFilesList();
         model.addAttribute("items", items);
         model.addAttribute("files", files);
-        model.addAttribute("view", itemService.updateCount(item_no));
 
         return "items/itemsList";
     }
@@ -95,6 +95,8 @@ public class ItemController {
 
         model.addAttribute("itemForm",itemForm);
         model.addAttribute("filesList", filesList);
+        model.addAttribute("count", itemService.updateCount(item_no));
+
         return "items/detail";
     }
 

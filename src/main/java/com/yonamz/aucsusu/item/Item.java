@@ -1,21 +1,18 @@
 package com.yonamz.aucsusu.item;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.yonamz.aucsusu.user.User;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 
-@Getter
+@Getter @Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Table(name = "item")
 public class Item {
 
@@ -33,11 +30,16 @@ public class Item {
     private int starting_bid;
     @Column(length = 100, nullable = false)
     private Date deadline;
-    @Column
+    @Column(length = 100, nullable = false, updatable = false)
     @CreationTimestamp
     private Timestamp reg_date;
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, nullable = false, updatable = false)
     private int cnt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     @Builder
     public Item(Long item_no, String title, String writer, String content, int starting_bid, Date deadline, Timestamp reg_date, int cnt) {
@@ -50,4 +52,5 @@ public class Item {
         this.reg_date=reg_date;
         this.cnt = cnt;
     }
+
 }

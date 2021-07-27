@@ -1,19 +1,24 @@
 package com.yonamz.aucsusu.item;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.yonamz.aucsusu.user.User;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-@Getter
-@Setter
+
+
+@Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ItemForm {
 
-    private long item_no;
+    private Long item_no;
     private String writer;
     private String title;
     private String content;
@@ -22,8 +27,6 @@ public class ItemForm {
     private Timestamp reg_date;
     private String picture_url;
     private int cnt;
-
-
 
     public Item toEntity(String sessionUser){
         Item build = Item.builder()
@@ -40,7 +43,8 @@ public class ItemForm {
     }
 
     @Builder
-    public ItemForm(long item_no, String writer, String title, String content, Date deadline, int starting_bid, Timestamp reg_date, int cnt) {
+    public ItemForm(Long item_no, String writer, String title, String content, Date deadline, int starting_bid, Timestamp reg_date, int cnt) {
+
         this.item_no = item_no;
         this.writer = writer;
         this.title = title;
@@ -50,4 +54,5 @@ public class ItemForm {
         this.reg_date=reg_date;
         this.cnt = cnt;
     }
+
 }

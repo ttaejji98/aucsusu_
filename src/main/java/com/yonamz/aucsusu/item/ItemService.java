@@ -1,9 +1,9 @@
 package com.yonamz.aucsusu.item;
 
-import lombok.RequiredArgsConstructor;
+import com.yonamz.aucsusu.user.User;
+import com.yonamz.aucsusu.user.UserRepository;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,11 @@ import java.util.Optional;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemRepository itemRepository, UserRepository userRepository) {
         this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -73,5 +75,7 @@ public class ItemService {
     public int updateCount(Long item_no){
         return itemRepository.updateCount(item_no);
     }
+
+
 
 }

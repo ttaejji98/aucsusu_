@@ -1,14 +1,20 @@
 package com.yonamz.aucsusu.user;
 
 
+import com.yonamz.aucsusu.item.Item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
@@ -32,6 +38,11 @@ public class User {
 
     @Column
     private String phoneNumber;
+
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Item> item = new ArrayList<>();
+
 
 
     @Builder

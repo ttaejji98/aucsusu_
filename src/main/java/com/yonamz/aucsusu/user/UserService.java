@@ -36,5 +36,8 @@ public class UserService {
         User user = userRepository.findByUid(uid);
         userRepository.delete(user);
     }
-
+    public User getByLoginId(String uid){
+        User user = userRepository.findByUid(uid);
+        return user;
+    }
 }

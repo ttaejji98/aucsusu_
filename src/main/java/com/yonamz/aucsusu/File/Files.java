@@ -17,4 +17,6 @@ public class Files {
     String fileUrl;
     @Column
     long itemNo;
+
+
 }

@@ -1,43 +1,77 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <!-- <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet"> -->
+
+  <title>상세조회</title>
 </head>
+
 <body>
-<h2 th:text="${itemForm.title}"></h2>
-<p>작성일 : <p th:text="${itemForm.reg_date}" /> </p>
-<p>작성자 : [[${itemForm.writer}]]</p>
+  <div class="container">
+    <table class="table">
+      <tr>
+        <td uth:text="상세조회"><h2>상세조회</h2></td>
+      </tr>
+      <tr>
+        <td th:text="${itemForm.title}"></td>
+      </tr>
+      <tr>
+        <td th:text="${#dates.format(itemForm.reg_date, 'yyyy-MM-dd')}"></td>
+      </tr>
+      <tr>
+        <td th:text="${itemForm.writer}"></td>
+      </tr>
+      <tr th:each="file : ${filesList}">
+        <td>
+          <img th:src="@{'/images/'}+${file.fileName}" style="width: 300px; height:auto;">
+        </td>
+      </tr>
+      <tr>
+        <td th:text="${itemForm.content}"></td>
+      </tr>
 
-<!--<img th:src="@{'/images/'}+${file.fileName}" style="width: 300px; height:auto;">-->
-<table>
-  <tr th:each="file : ${filesList}">
-    <td>
-      <img th:src="@{'/images/'}+${file.fileName}" style="width: 300px; height:auto;">
-    </td>
-  </tr>
-</table>
-<p th:text="${itemForm.content}"></p>
-
-<!-- 수정/삭제 -->
-<div>
-  <a th:href="@{'/items/edit/' + ${itemForm.item_no}}">
-    <button>수정</button>
-  </a>
+    </table>
 
 
-  <form id="delete-form" th:action="@{'/items/' + ${itemForm.item_no}}" method="post">
-    <input type="hidden" name="_method" value="delete"/>
-    <button id="delete-btn">삭제</button>
-  </form>
+    <!-- 수정/삭제 -->
+    <div>
+
+      <a th:href="@{'/items/edit/' + ${itemForm.item_no}}">
+        <button class="btn btn-outline-warning">수정</button>
+      </a>
 
 
-</div>
+      <form id="delete-form" th:action="@{'/items/' + ${itemForm.item_no}}" method="post">
+        <input type="hidden" name="_method" value="delete" />
+        <button class="btn btn-outline-warning" id="delete-btn">삭제</button>
+      </form>
 
-<!-- 상품 목록 보기 -->
-<a href="/items/">
-  <button> 상품 목록</button>
-</a>
+
+    </div>
+
+    <a th:href="@{'/items/'}">
+      <button class="btn btn-outline-warning">취소</button>
+    </a>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
 
 </body>
+
 </html>

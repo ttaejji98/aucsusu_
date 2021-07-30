@@ -37,15 +37,12 @@
       <tr>
         <td th:text="${itemForm.content}"></td>
       </tr>
-      <tr th:each="item : ${itemForm}">
-        <td th:data-deadline="${item.deadline}" th:onclick="test(this.getAttribute('data-deadline'))" >마감기한 남은 시간</td>
+      <tr>
+        <td id="deadline_data" data-th-align="${itemForm.deadline}" th:type="hidden"></td>
+
       </tr>
-    </table>
-
-
-
-
-
+     </table>
+    <div th:id="contentArea"></div>
     <!-- 수정/삭제 -->
     <div th:if="${user.getUid() == writer}">
       <a th:href="@{'/items/edit/' + ${itemForm.item_no}}">
@@ -73,34 +70,64 @@
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-
-  <script th:inline="javascript">
-
-    function test(deadline) {
-      var dday = new Date(deadline).getTime();
-
-      setInterval(function () {
-        var today = new Date().getTime();
-        var gap = dday - today;
-        var day = Math.ceil(gap / (1000 * 60 * 60 * 24));
-        var hour = Math.ceil((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var min = Math.ceil((gap % (1000 * 60 * 60)) / (1000 * 60));
-        var sec = Math.ceil((gap % (1000 * 60)) / 1000);
+  <script>
+$(document).ready(function () {
+  var deadline1 = document.getElementById("deadline_data");
+  var deadline = deadline1.getAttribute("align");
 
 /*
-        alert("마감기한까지 " + day + "일 " + hour + "시간 " + min + "분 " + sec + "초 남았습니다.");
-*/
-/*
-        document.getElementById("innertest").innerHTML = "마감기한까지 " + day + "일 " + hour + "시간 " + min + "분 " + sec + "초 남았습니다.";
-*/
-/*
-        console.log("마감기한까지 " + day + "일 " + hour + "시간 " + min + "분 " + sec + "초 남았습니다.");
-*/
-        document.write("마감기한까지 " + day + "일 " + hour + "시간 " + min + "분 " + sec + "초 남았습니다.<br>");
-      }, 1000);
+  var dday = new Date(deadline);
+  dday.setHours(0);
+  dday.getTime();
+  var today = new Date().getTime();
+  var gap = dday - today;
+
+  setInterval(function () {
+
+    if (gap < 0) {
+      clearInterval();
+      document.getElementById("contentArea").innerHTML = '마감되었습니다.';
+      return;
     }
+
+    var day = Math.ceil(gap / (1000 * 60 * 60 * 24));
+    var hour = Math.ceil((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var min = Math.ceil((gap % (1000 * 60 * 60)) / (1000 * 60));
+    var sec = Math.ceil((gap % (1000 * 60)) / 1000);
+
+    document.getElementById("contentArea").innerHTML = "마감기한까지 " + day + "일 " + hour + "시간 " + min + "분 " + sec + "초 남았습니다."
+
+  }, 1000);
+*/
+
+  setInterval(function (){
+
+     var end = new Date(deadline);
+     end.setHours(0);
+     var now = new Date();
+     var distance = end - now;
+
+     var _second = 1000;
+     var _minute = _second * 60;
+     var _hour = _minute * 60;
+     var _day = _hour * 24;
+
+    if (distance < 0) {
+      clearInterval();
+      document.getElementById("contentArea").innerHTML = '마감되었습니다.';
+      return;
+    }
+
+     var days = Math.floor(distance / _day);
+     var hours = Math.floor((distance % _day) / _hour);
+     var minutes = Math.floor((distance % _hour) / _minute);
+     var seconds = Math.floor((distance % _minute) / _second);
+
+     document.getElementById("contentArea").innerHTML = days + '일 ' + hours + '시간 ' + minutes + '분 ' + seconds + '초';
+
+   },1000);
+})
   </script>
 
 </body>
-
 </html>

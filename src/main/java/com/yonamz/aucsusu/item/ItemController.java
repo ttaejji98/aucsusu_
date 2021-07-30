@@ -16,21 +16,20 @@ import org.apache.commons.lang3.RandomStringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 public class ItemController {
 
     private final ItemService itemService;
-    private final HttpSession httpSession;
 
     @Autowired
     FilesService filesService;
 
     @Autowired
-    public ItemController(ItemService itemService, HttpSession httpSession) {
+    public ItemController(ItemService itemService) {
         this.itemService = itemService;
-        this.httpSession = httpSession;
     }
 
     @GetMapping(value="/items/new")
@@ -95,11 +94,15 @@ public class ItemController {
         ItemForm itemForm = itemService.getPost(item_no, user.getUid());
         //Files files = filesService.findByItemNo(item_no);
         List<Files> filesList = filesService.findAllByItemNo(item_no);
+        String writer = itemService.getWriter(item_no);
+        Date deadline = itemService.getDeadline(item_no);
 
         model.addAttribute("itemForm",itemForm);
         model.addAttribute("filesList", filesList);
         model.addAttribute("count", itemService.updateCount(item_no));
-
+        model.addAttribute("user", user);
+        model.addAttribute("writer", writer);
+        model.addAttribute("deadline", deadline);
         return "items/detail";
     }
 

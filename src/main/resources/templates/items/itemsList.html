@@ -48,9 +48,8 @@
           <td><textarea th:text="${item.content}"></textarea></td>
           <td th:text="${item.deadline}"></td>
           <td th:text="${item.starting_bid}"></td>
-          <td th:text="${item.reg_date}"></td>
+          <td th:text="${#dates.format(item.reg_date, 'yyyy-MM-dd')}"></td>
           <td th:text="${item.cnt}"></td>
-
         </tr>
 
       </tbody>

@@ -2,10 +2,12 @@ package com.yonamz.aucsusu.item;
 
 import com.yonamz.aucsusu.user.User;
 import com.yonamz.aucsusu.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,11 +15,10 @@ import java.util.Optional;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final UserRepository userRepository;
 
-    public ItemService(ItemRepository itemRepository, UserRepository userRepository) {
+
+    public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -76,6 +77,11 @@ public class ItemService {
         return itemRepository.updateCount(item_no);
     }
 
+    public String getWriter(Long itemNo) {
+        return itemRepository.findByItem_no(itemNo).getWriter();
+    }
+
+    public Date getDeadline(long item_no){ return itemRepository.findByItem_no(item_no).getDeadline();}
 
 
 }
